@@ -989,7 +989,7 @@ class AppointmentController extends Controller
                 $report->doctor_pincode = $appointment->doctor_pincode;
             }
             $report->client_id = $request->client_id;
-            $report->isDoctor = $request->has('doctor_access') ? 1 : 0;
+            $report->isDoctor = ($request->has('doctor_access') || $request->input('isDoctor') == 1) ? 1 : 0;
 
             // Header
             $report->branch_code = $request->branch_code;
@@ -1264,15 +1264,19 @@ class AppointmentController extends Controller
             } catch (\Exception $pdfError) {
                 Log::error('PDF generation failed: '.$pdfError->getMessage());
 
-                return redirect()->back()->with([
-                    'success' => 'Report saved successfully, but PDF could not be generated.',
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Report saved successfully, but PDF could not be generated: '.$pdfError->getMessage(),
                     'report_id' => $report->id,
-                ]);
+                ], 500);
             }
         } catch (\Exception $e) {
             Log::error('Error saving medical report: '.$e->getMessage());
 
-            return redirect()->back()->with('error', 'Failed to save report: '.$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to save report: '.$e->getMessage()
+            ], 500);
         }
     }
 

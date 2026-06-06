@@ -12,132 +12,393 @@
 
 
     <style>
-        body {
+        html, body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f8fafc;
+            min-height: 100vh;
+            overflow-y: auto !important;
         }
 
-        #zmmtg-root {
-            display: block !important;
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 9999;
-            /* Ensure it's on top */
-            background-color: white;
-            /* Prevent invisible background */
-        }
-
-        /* #zmmtg-root {
-            display: block !important;
-            position: relative !important;
-            width: 100vw;
-            height: 100vh;
-        } */
-
-        #meetingSDKElement {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div id="meetingSDKElement"></div>
-
-    <!-- ✅ Zoom Web Meeting SDK CSS -->
-    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/3.11.2/css/bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/3.11.2/css/react-select.css" />
-
-    <!-- ✅ Zoom Web Meeting SDK JS -->
-    <script src="https://source.zoom.us/3.11.2/lib/vendor/react.min.js"></script>
-    <script src="https://source.zoom.us/3.11.2/lib/vendor/react-dom.min.js"></script>
-    <script src="https://source.zoom.us/3.11.2/lib/vendor/redux.min.js"></script>
-    <script src="https://source.zoom.us/3.11.2/lib/vendor/redux-thunk.min.js"></script>
-    <script src="https://source.zoom.us/3.11.2/lib/vendor/lodash.min.js"></script>
-    <script src="https://source.zoom.us/3.11.2/zoom-meeting-3.11.2.min.js"></script>
-    <style>
-        .zoom-workplace-logo {
-            display: none;
-        }
-
-        .meeting-header {
+        /* Hide Zoom SDK default branding & headers */
+        .zoom-workplace-logo,
+        .meeting-header,
+        .footer__leave-btn-container {
             display: none !important;
         }
-    </style>
-    @if (request()->has('doctor_access'))
-        <style>
-            .footer__leave-btn-container {
-                display: none;
+
+        .hidden {
+            display: none !important;
+        }
+
+        input,
+        select,
+        textarea {
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        /* --- DOCTOR VIEW STYLING --- */
+        @if (request()->has('doctor_access'))
+            .doctor-controls-capsule {
+                position: fixed !important;
+                z-index: 10002 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                background-color: #1a1a1a !important; /* Dark Zoom theme background */
+                border: 1px solid #2d2d2d !important;
+                border-radius: 6px !important; /* Matches Zoom control bar corners */
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
             }
 
-            #meetingSDKElement,
-            #zmmtg-root {
-                max-width: 65% !important;
-                max-height: 85vh !important;
-                margin-top: 100px;
+            @media (min-width: 768px) {
+                .doctor-controls-capsule {
+                    top: 20px !important;
+                    left: 20px !important;
+                    padding: 8px 16px !important;
+                    gap: 12px !important;
+                }
             }
 
-            .single-main-container__main-view {
-                height: 400px !important;
+            @media (max-width: 767px) {
+                .doctor-controls-capsule {
+                    top: 10px !important;
+                    left: 2% !important;
+                    width: 96% !important;
+                    height: 50px !important;
+                    padding: 0 16px !important;
+                }
             }
 
-            video-player {
-                height: 600px !important;
+            /* Minimized Form Panel State - Form Icon only */
+            .doctor-form-panel.minimized {
+                position: fixed !important;
+                bottom: 24px !important;
+                right: 24px !important;
+                left: auto !important;
+                top: auto !important;
+                width: 60px !important;
+                height: 60px !important;
+                border-radius: 50% !important;
+                background-color: #1e293b !important; /* Premium Slate-800 dark theme */
+                border: 2px solid #ffffff !important;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+                cursor: pointer !important;
+                overflow: hidden !important;
+                z-index: 10005 !important;
+                transition: transform 0.2s ease, background-color 0.2s ease !important;
             }
-        </style>
-    @endif
+            .doctor-form-panel.minimized:hover {
+                transform: scale(1.08);
+                background-color: #0f172a !important; /* Premium hover color Slate-900 */
+            }
 
+            /* Animation transition when minimizing/maximizing */
+            .doctor-form-panel.animating {
+                transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                            height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                            border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                            box-shadow 0.3s ease !important;
+            }
 
-    {{-- Normal user / customer starts --}}
-    @if (!request()->has('doctor_access'))
-        <style>
-            .footer__leave-btn-container {
+            .doctor-form-panel.minimized #formDragHandle {
+                width: 100% !important;
+                height: 100% !important;
+                background: transparent !important;
+                padding: 0 !important;
+                border-radius: 50% !important;
+                justify-content: center !important;
+                align-items: center !important;
+                display: flex !important;
+            }
+
+            .doctor-form-panel.minimized #formResizeHandle {
                 display: none !important;
             }
 
+            /* Submit & End buttons styled to match Zoom SDK Theme */
+            #submitReportBtn {
+                background-color: #0E71EB !important;
+                color: #ffffff !important;
+                border: none !important;
+                font-size: 13px !important;
+                padding: 6px 14px !important;
+                border-radius: 4px !important;
+                font-weight: 600 !important;
+                cursor: pointer !important;
+                transition: background-color 0.2s !important;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+            }
+            #submitReportBtn:hover {
+                background-color: #0c62cc !important;
+            }
+            #submitReportBtn:disabled {
+                background-color: #2d2d2d !important;
+                color: #555555 !important;
+                cursor: not-allowed !important;
+            }
+
+            #endMeetingBtn {
+                background-color: #2d2d2d !important;
+                color: #777777 !important;
+                border: none !important;
+                font-size: 13px !important;
+                padding: 6px 14px !important;
+                border-radius: 4px !important;
+                font-weight: 600 !important;
+                text-decoration: none !important;
+                display: inline-block !important;
+                cursor: not-allowed !important;
+                transition: all 0.2s !important;
+            }
+
+            #endMeetingBtn.active-btn {
+                background-color: #DE2828 !important;
+                color: #ffffff !important;
+                cursor: pointer !important;
+            }
+            #endMeetingBtn.active-btn:hover {
+                background-color: #c02222 !important;
+            }
+
+            /* Main Zoom Video */
+            #sv-active-video,
+            #sv-active-speaker-view,
+            .active-main,
+            .main-layout,
+            .single-main-container__main-view {
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            /* Floating Self Preview - Put on the left side of the screen */
+            .suspension-window {
+                width: 220px !important;
+                height: 160px !important;
+                left: 20px !important;
+                right: auto !important;
+                border-radius: 10px !important;
+                overflow: hidden !important;
+                z-index: 10000 !important;
+            }
+
+            /* Prevent multiple preview positions and stack them on the left */
+            .suspension-window:nth-of-type(1) {
+                bottom: 100px !important;
+                top: auto !important;
+            }
+            .suspension-window:nth-of-type(2) {
+                top: 120px !important;
+                bottom: auto !important;
+            }
+            .suspension-window:nth-of-type(3) {
+                top: 300px !important;
+                bottom: auto !important;
+            }
+
+            /* Video Fit */
+            video {
+                object-fit: cover !important;
+            }
+
+            /* Desktop/Tablet Layout (768px and up) */
+            @media (min-width: 768px) {
+                #meetingSDKElement,
+                #zmmtg-root {
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    width: 100vw !important;
+                    height: 100vh !important;
+                    z-index: 9999 !important;
+                    overflow: hidden !important;
+                    border-radius: 0px !important;
+                }
+
+                .doctor-form-panel {
+                    position: fixed !important;
+                    top: 100px; /* Allowed override by JS */
+                    right: 20px; /* Allowed override by JS */
+                    width: 400px !important;
+                    height: calc(100vh - 180px);
+                    z-index: 10001 !important; /* Floats above full-screen Zoom video */
+                    display: flex !important;
+                    flex-direction: column !important;
+                    overflow: hidden !important;
+                    border: 1px solid #e2e8f0;
+                    background-color: white !important;
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+                }
+
+                #formDragHandle {
+                    display: flex !important;
+                    cursor: grab !important;
+                }
+                #formDragHandle:active {
+                    cursor: grabbing !important;
+                }
+
+                #formResizeHandle {
+                    display: block !important;
+                }
+            }
+
+            /* Tablet Specific Refinements (768px to 1024px) */
+            @media (min-width: 768px) and (max-width: 1024px) {
+                .doctor-form-panel:not(.minimized) {
+                    width: 340px !important;
+                    right: 15px !important;
+                    top: 90px !important;
+                    height: calc(100vh - 150px) !important;
+                }
+            }
+
+            /* Mobile Layout (below 768px) */
+            @media (max-width: 767px) {
+                #meetingSDKElement,
+                #zmmtg-root {
+                    position: fixed !important;
+                    top: 70px !important;
+                    left: 2% !important;
+                    width: 96% !important;
+                    height: 45vh !important;
+                    z-index: 9999 !important;
+                    overflow: hidden !important;
+                    border-radius: 10px !important;
+                }
+
+                .doctor-form-panel {
+                    position: absolute !important;
+                    top: calc(85px + 45vh) !important;
+                    left: 2% !important;
+                    right: auto !important; /* Forces reset of desktop right positioning */
+                    width: 96% !important;
+                    height: auto !important;
+                    margin-bottom: 40px !important;
+                    z-index: 9998 !important;
+                    overflow-y: visible !important;
+                }
+
+                #formDragHandle {
+                    display: flex !important;
+                    cursor: default !important;
+                }
+
+                #formResizeHandle {
+                    display: none !important;
+                }
+            }
+        @endif
+
+        /* --- PATIENT/CUSTOMER VIEW STYLING --- */
+        @if (!request()->has('doctor_access'))
             .patient-topbar {
-                position: fixed;
-                top: 8px;
-                left: 0;
-                width: 97.3%;
-                height: 90px;
-                background: #f5f5f5;
-                z-index: 99999;
-                display: flex;
-                align-items: center;
-                padding: 0 24px;
-                border-radius: 6px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                position: fixed !important;
+                z-index: 10002 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background-color: #1a1a1a !important; /* Dark Zoom theme background */
+                border: 1px solid #2d2d2d !important;
+                border-radius: 6px !important; /* Matches Zoom control bar corners */
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
             }
 
             .patient-end-btn {
-                margin-left: 20px;
-                padding: 10px 26px;
-                border-radius: 999px;
-                border: 2px solid #c9ced6;
-                background: white;
-                color: #2563eb;
-                font-size: 15px;
-                font-weight: 600;
-                text-decoration: none;
-                transition: 0.2s ease;
-                cursor: pointer;
+                background-color: #DE2828 !important;
+                color: #ffffff !important;
+                border: none !important;
+                font-size: 13px !important;
+                padding: 6px 14px !important;
+                border-radius: 4px !important;
+                font-weight: 600 !important;
+                cursor: pointer !important;
+                transition: background-color 0.2s !important;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
             }
 
             .patient-end-btn:hover {
-                background: #f8fafc;
+                background-color: #c02222 !important;
             }
 
-            /* Prevent Zoom overlap */
+            /* Responsive Topbar, Logo, End Button and Zoom Container */
+            @media (min-width: 768px) {
+                .patient-topbar {
+                    top: 20px !important;
+                    left: 20px !important;
+                    padding: 8px 12px !important;
+                }
+            }
+
+            @media (max-width: 767px) {
+                .patient-topbar {
+                    top: 10px !important;
+                    left: 10px !important;
+                    padding: 6px 10px !important;
+                }
+            }
+
             #meetingSDKElement,
             #zmmtg-root {
-                margin-top: 100px !important;
-                height: calc(100vh - 100px) !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                z-index: 9999 !important;
+                overflow: hidden !important;
+                border-radius: 0px !important;
+            }
+
+            /* Main Zoom Video inside patient view */
+            #sv-active-video,
+            #sv-active-speaker-view,
+            .active-main,
+            .main-layout,
+            .single-main-container__main-view {
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            /* Floating Self Preview for Patient */
+            .suspension-window {
+                width: 150px !important;
+                height: 110px !important;
+                right: 15px !important;
+                top: 15px !important;
+                left: auto !important;
+                bottom: auto !important;
+                border-radius: 8px !important;
+                overflow: hidden !important;
+                z-index: 10000 !important;
+            }
+
+            @media (min-width: 640px) {
+                .suspension-window {
+                    width: 220px !important;
+                    height: 160px !important;
+                }
+            }
+
+            /* Prevent multiple preview positions */
+            .suspension-window:nth-of-type(1),
+            .suspension-window:nth-of-type(2),
+            .suspension-window:nth-of-type(3) {
+                top: 15px !important;
+            }
+
+            /* Video Fit */
+            video {
+                object-fit: cover !important;
             }
 
             /* Modal */
@@ -236,15 +497,33 @@
             .rating-submit-btn:hover {
                 background: #1d4ed8;
             }
-        </style>
+        @endif
+    </style>
+</head>
 
+<body>
+
+    <div id="meetingSDKElement"></div>
+
+    <!-- ✅ Zoom Web Meeting SDK CSS -->
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/3.11.2/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="https://source.zoom.us/3.11.2/css/react-select.css" />
+
+    <!-- ✅ Zoom Web Meeting SDK JS -->
+    <script src="https://source.zoom.us/3.11.2/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/3.11.2/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/3.11.2/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/3.11.2/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/3.11.2/lib/vendor/lodash.min.js"></script>
+    <script src="https://source.zoom.us/3.11.2/zoom-meeting-3.11.2.min.js"></script>
+    {{-- Scattered styles consolidated to head style block --}}
+
+    @if (!request()->has('doctor_access'))
         <!-- Topbar -->
-        <div class="patient-topbar">
-
+        <div class="patient-topbar shadow-md">
             <button type="button" class="patient-end-btn" id="openRatingModal">
                 End Meeting
             </button>
-
         </div>
 
         <!-- Rating Modal -->
@@ -442,41 +721,59 @@
             accept-charset="UTF-8">
             @csrf
 
-            <!-- Fixed Header -->
-            <div
-                class="w-[97.3%] mt-[7px] h-[90px] fixed top-0 left-0 z-50 rounded-md flex items-center bg-white shadow-md px-4">
-
-                <img src="{{ url('assests/img/honestlogo.png') }}" class="h-12 hidden sm:block mx-3">
-
-                {{-- <button type="button" id="startRecordingBtn" class="text-red-600 font-semibold ml-4 px-3 py-2">
-                    Start Recording
-                </button>
-
-                <button type="button" id="stopRecordingBtn" class="text-red-600 font-semibold ml-4 px-3 py-2 hidden">
-                    Stop Recording
-                </button> --}}
+            <!-- Floating Controls Capsule -->
+            <div class="doctor-controls-capsule">
                 <!-- Submit Report -->
-                <button type="button" id="submitReportBtn" class="text-red-600 font-semibold ml-4">
+                <button type="button" id="submitReportBtn" class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 hover:text-red-700 transition duration-200 cursor-pointer shadow-sm">
                     Submit Report
                 </button>
 
                 <!-- End Meeting -->
                 <a href="#" id="endMeetingBtn"
-                    class="ml-6 px-4 py-2 rounded-full font-semibold text-gray-400 border-2 border-gray-300 cursor-not-allowed">
+                    class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold text-gray-400 border border-gray-300 bg-gray-50/50 cursor-not-allowed transition duration-200 shadow-sm">
                     End Meeting
                 </a>
-
             </div>
             <!-- Form Panel -->
-            <div
-                class="w-[35%] mt-[100px] mb-10 h-[calc(100%-120px)] fixed top-0 right-5 z-50 rounded-md overflow-y-auto">
-                <div class="bg-white p-6 rounded-lg shadow-xl w-full">
+            <div class="doctor-form-panel bg-white shadow-xl rounded-lg">
+                <!-- Drag Handle Header (Desktop only) -->
+                <div id="formDragHandle" class="w-full bg-[#1e293b] text-white px-4 py-3 rounded-t-lg flex justify-between items-center select-none">
+                    <!-- Maximized State Title -->
+                    <div id="dragTitle" class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <span class="font-bold text-sm tracking-wide">MEDICAL EXAMINER'S REPORT</span>
+                    </div>
+                    <!-- Maximized State Controls -->
+                    <div id="dragControls" class="flex items-center gap-3">
+                        <span class="hidden md:inline-block text-[10px] bg-[#334155] border border-slate-600 px-2 py-1 rounded text-slate-200 font-semibold uppercase tracking-wider">Drag to Move</span>
+                        <button type="button" id="minimizeFormBtn" onclick="toggleMinimizeForm(event)" class="text-white hover:bg-[#334155] focus:outline-none rounded p-1 flex items-center justify-center transition-colors duration-200" title="Minimize Form" style="width: 24px; height: 24px; cursor: pointer;">
+                            <svg id="minimizeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                            </svg>
+                            <svg id="maximizeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Minimized State Document Icon -->
+                    <svg id="clipboardIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l2 2 4-4" />
+                    </svg>
+                </div>
+                <!-- Scrollable Form Body -->
+                <div id="doctorFormBody" class="p-6 overflow-y-auto w-full flex-1">
                     <h5 class="text-xl font-bold mb-2 text-center">MEDICAL EXAMINER'S REPORT</h5>
                     <p class="text-center text-sm text-gray-500 mb-4">Form No LIC03-001 (Revised 2020)</p>
 
                     <input type="hidden" name="meeting_id" value="{{ $meetingId ?? '' }}">
                     <input type="hidden" name="isDoctor" value="1">
                     <input type="hidden" name="client_id" value="{{ $patientId ?? '' }}">
+                    @if (request()->has('doctor_access'))
+                        <input type="hidden" name="doctor_access" value="{{ request('doctor_access') }}">
+                    @endif
 
 
                     <input type="hidden" name="doctor_latitude" id="doctor_latitude">
@@ -1185,6 +1482,12 @@
                             of my knowledge</label>
                     </div>
                 </div>
+                <!-- Custom Resize Handle (Tablet/Desktop only) -->
+                <div id="formResizeHandle" class="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize flex items-end justify-end p-0.5 z-[10003]" style="touch-action: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 19h-6M19 19v-6M19 13l-6 6" />
+                    </svg>
+                </div>
             </div>
         </form>
 
@@ -1206,27 +1509,351 @@
                     });
                 }
             }
+
+            // Draggable Form Panel logic for Desktop/Tablet (screens >= 768px)
+            function makeElementDraggable(elmnt, dragHandle) {
+                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                let isDragging = false;
+                let startX = 0, startY = 0;
+
+                dragHandle.addEventListener('mousedown', dragMouseDown);
+                dragHandle.addEventListener('touchstart', dragTouchStart, { passive: false });
+
+                function dragMouseDown(e) {
+                    if (e.button !== 0) return; // Only left click
+
+                    // Do not drag if clicking on minimize button inside maximized state
+                    if (e.target.closest('#minimizeFormBtn')) return;
+
+                    isDragging = false;
+                    startX = e.clientX;
+                    startY = e.clientY;
+
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+
+                    if (window.innerWidth >= 768) {
+                        // Avoid Zoom SDK swallowing events
+                        const zmmtgRoot = document.getElementById('zmmtg-root');
+                        if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'none';
+                        const meetingSDK = document.getElementById('meetingSDKElement');
+                        if (meetingSDK) meetingSDK.style.pointerEvents = 'none';
+
+                        document.body.style.userSelect = 'none';
+
+                        document.addEventListener('mousemove', elementDrag);
+                    }
+                    document.addEventListener('mouseup', closeDragElement);
+                }
+
+                function dragTouchStart(e) {
+                    if (e.target.closest('#minimizeFormBtn')) return;
+
+                    isDragging = false;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+
+                    if (window.innerWidth >= 768) {
+                        const zmmtgRoot = document.getElementById('zmmtg-root');
+                        if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'none';
+                        const meetingSDK = document.getElementById('meetingSDKElement');
+                        if (meetingSDK) meetingSDK.style.pointerEvents = 'none';
+
+                        document.body.style.userSelect = 'none';
+
+                        document.addEventListener('touchmove', elementTouchDrag, { passive: false });
+                    }
+                    document.addEventListener('touchend', closeTouchDragElement);
+                }
+
+                function elementDrag(e) {
+                    if (Math.abs(e.clientX - startX) > 4 || Math.abs(e.clientY - startY) > 4) {
+                        isDragging = true;
+                    }
+
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+
+                    const rect = elmnt.getBoundingClientRect();
+                    let newTop = rect.top - pos2;
+                    let newLeft = rect.left - pos1;
+
+                    if (newTop < 0) newTop = 0;
+                    if (newLeft < 0) newLeft = 0;
+                    if (newLeft > window.innerWidth - rect.width) newLeft = window.innerWidth - rect.width;
+                    if (newTop > window.innerHeight - rect.height) newTop = window.innerHeight - rect.height;
+
+                    elmnt.style.setProperty('top', newTop + 'px', 'important');
+                    elmnt.style.setProperty('left', newLeft + 'px', 'important');
+                    elmnt.style.setProperty('right', 'auto', 'important');
+                    elmnt.style.setProperty('bottom', 'auto', 'important');
+                }
+
+                function elementTouchDrag(e) {
+                    if (e.cancelable) e.preventDefault();
+                    if (Math.abs(e.touches[0].clientX - startX) > 4 || Math.abs(e.touches[0].clientY - startY) > 4) {
+                        isDragging = true;
+                    }
+
+                    pos1 = pos3 - e.touches[0].clientX;
+                    pos2 = pos4 - e.touches[0].clientY;
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+
+                    const rect = elmnt.getBoundingClientRect();
+                    let newTop = rect.top - pos2;
+                    let newLeft = rect.left - pos1;
+
+                    if (newTop < 0) newTop = 0;
+                    if (newLeft < 0) newLeft = 0;
+                    if (newLeft > window.innerWidth - rect.width) newLeft = window.innerWidth - rect.width;
+                    if (newTop > window.innerHeight - rect.height) newTop = window.innerHeight - rect.height;
+
+                    elmnt.style.setProperty('top', newTop + 'px', 'important');
+                    elmnt.style.setProperty('left', newLeft + 'px', 'important');
+                    elmnt.style.setProperty('right', 'auto', 'important');
+                    elmnt.style.setProperty('bottom', 'auto', 'important');
+                }
+
+                function closeDragElement() {
+                    document.removeEventListener('mouseup', closeDragElement);
+                    document.removeEventListener('mousemove', elementDrag);
+
+                    const zmmtgRoot = document.getElementById('zmmtg-root');
+                    if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'auto';
+                    const meetingSDK = document.getElementById('meetingSDKElement');
+                    if (meetingSDK) meetingSDK.style.pointerEvents = 'auto';
+
+                    document.body.style.userSelect = 'auto';
+
+                    // If it was a simple click on the minimized icon, maximize it!
+                    if (!isDragging && elmnt.classList.contains('minimized')) {
+                        toggleMinimizeForm();
+                    }
+                }
+
+                function closeTouchDragElement() {
+                    document.removeEventListener('touchend', closeTouchDragElement);
+                    document.removeEventListener('touchmove', elementTouchDrag);
+
+                    const zmmtgRoot = document.getElementById('zmmtg-root');
+                    if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'auto';
+                    const meetingSDK = document.getElementById('meetingSDKElement');
+                    if (meetingSDK) meetingSDK.style.pointerEvents = 'auto';
+
+                    document.body.style.userSelect = 'auto';
+
+                    if (!isDragging && elmnt.classList.contains('minimized')) {
+                        toggleMinimizeForm();
+                    }
+                }
+            }
+
+            // Resizable Form Panel logic for Desktop/Tablet (screens >= 768px)
+            function makeElementResizable(elmnt, resizeHandle) {
+                let startWidth, startHeight, startX, startY;
+
+                resizeHandle.addEventListener('mousedown', initResize);
+                resizeHandle.addEventListener('touchstart', initTouchResize, { passive: false });
+
+                function initResize(e) {
+                    if (e.button !== 0) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    startX = e.clientX;
+                    startY = e.clientY;
+
+                    const rect = elmnt.getBoundingClientRect();
+                    startWidth = rect.width;
+                    startHeight = rect.height;
+
+                    const zmmtgRoot = document.getElementById('zmmtg-root');
+                    if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'none';
+                    const meetingSDK = document.getElementById('meetingSDKElement');
+                    if (meetingSDK) meetingSDK.style.pointerEvents = 'none';
+
+                    document.body.style.userSelect = 'none';
+
+                    document.addEventListener('mousemove', resizeElement);
+                    document.addEventListener('mouseup', stopResize);
+                }
+
+                function initTouchResize(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+
+                    const rect = elmnt.getBoundingClientRect();
+                    startWidth = rect.width;
+                    startHeight = rect.height;
+
+                    const zmmtgRoot = document.getElementById('zmmtg-root');
+                    if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'none';
+                    const meetingSDK = document.getElementById('meetingSDKElement');
+                    if (meetingSDK) meetingSDK.style.pointerEvents = 'none';
+
+                    document.body.style.userSelect = 'none';
+
+                    document.addEventListener('touchmove', resizeTouchElement, { passive: false });
+                    document.addEventListener('touchend', stopResize);
+                }
+
+                function resizeElement(e) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+
+                    let newWidth = startWidth + dx;
+                    let newHeight = startHeight + dy;
+
+                    if (newWidth < 280) newWidth = 280;
+                    if (newWidth > window.innerWidth - 40) newWidth = window.innerWidth - 40;
+                    if (newHeight < 150) newHeight = 150;
+                    if (newHeight > window.innerHeight - 40) newHeight = window.innerHeight - 40;
+
+                    elmnt.style.setProperty('width', newWidth + 'px', 'important');
+                    elmnt.style.setProperty('height', newHeight + 'px', 'important');
+                }
+
+                function resizeTouchElement(e) {
+                    if (e.cancelable) e.preventDefault();
+                    const dx = e.touches[0].clientX - startX;
+                    const dy = e.touches[0].clientY - startY;
+
+                    let newWidth = startWidth + dx;
+                    let newHeight = startHeight + dy;
+
+                    if (newWidth < 280) newWidth = 280;
+                    if (newWidth > window.innerWidth - 40) newWidth = window.innerWidth - 40;
+                    if (newHeight < 150) newHeight = 150;
+                    if (newHeight > window.innerHeight - 40) newHeight = window.innerHeight - 40;
+
+                    elmnt.style.setProperty('width', newWidth + 'px', 'important');
+                    elmnt.style.setProperty('height', newHeight + 'px', 'important');
+                }
+
+                function stopResize() {
+                    document.removeEventListener('mousemove', resizeElement);
+                    document.removeEventListener('mouseup', stopResize);
+                    document.removeEventListener('touchmove', resizeTouchElement);
+                    document.removeEventListener('touchend', stopResize);
+
+                    const zmmtgRoot = document.getElementById('zmmtg-root');
+                    if (zmmtgRoot) zmmtgRoot.style.pointerEvents = 'auto';
+                    const meetingSDK = document.getElementById('meetingSDKElement');
+                    if (meetingSDK) meetingSDK.style.pointerEvents = 'auto';
+
+                    document.body.style.userSelect = 'auto';
+                }
+            }
+
+            window.toggleMinimizeForm = function(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                const formPanel = document.querySelector('.doctor-form-panel');
+                const formBody = document.getElementById('doctorFormBody');
+                const dragHandle = document.getElementById('formDragHandle');
+                const dragTitle = document.getElementById('dragTitle');
+                const dragControls = document.getElementById('dragControls');
+                const clipboardIcon = document.getElementById('clipboardIcon');
+
+                if (formPanel && formBody) {
+                    const isMinimized = formPanel.classList.contains('minimized');
+
+                    formPanel.classList.add('animating');
+
+                    if (!isMinimized) {
+                        // Save current inline styles before removing them for minimized view
+                        if (formPanel.style.width) formPanel.setAttribute('data-saved-width', formPanel.style.width);
+                        if (formPanel.style.height) formPanel.setAttribute('data-saved-height', formPanel.style.height);
+                        if (formPanel.style.top) formPanel.setAttribute('data-saved-top', formPanel.style.top);
+                        if (formPanel.style.left) formPanel.setAttribute('data-saved-left', formPanel.style.left);
+
+                        // Remove inline styles to let CSS circle/fixed styles apply
+                        formPanel.style.removeProperty('width');
+                        formPanel.style.removeProperty('height');
+                        formPanel.style.removeProperty('top');
+                        formPanel.style.removeProperty('left');
+                        formPanel.style.removeProperty('right');
+                        formPanel.style.removeProperty('bottom');
+
+                        formPanel.classList.add('minimized');
+                        formBody.classList.add('hidden');
+                        if (dragTitle) dragTitle.classList.add('hidden');
+                        if (dragControls) dragControls.classList.add('hidden');
+                        if (clipboardIcon) clipboardIcon.classList.remove('hidden');
+                        if (dragHandle) {
+                            dragHandle.title = "Click to Expand Form / Drag to Move";
+                        }
+                    } else {
+                        formPanel.classList.remove('minimized');
+                        formBody.classList.remove('hidden');
+                        if (dragTitle) dragTitle.classList.remove('hidden');
+                        if (dragControls) dragControls.classList.remove('hidden');
+                        if (clipboardIcon) clipboardIcon.classList.add('hidden');
+                        if (dragHandle) {
+                            dragHandle.removeAttribute('title');
+                        }
+
+                        // Restore inline styles saved before minimizing
+                        const savedWidth = formPanel.getAttribute('data-saved-width');
+                        const savedHeight = formPanel.getAttribute('data-saved-height');
+                        const savedTop = formPanel.getAttribute('data-saved-top');
+                        const savedLeft = formPanel.getAttribute('data-saved-left');
+
+                        if (savedWidth) formPanel.style.setProperty('width', savedWidth, 'important');
+                        if (savedHeight) formPanel.style.setProperty('height', savedHeight, 'important');
+                        if (savedTop) formPanel.style.setProperty('top', savedTop, 'important');
+                        if (savedLeft) formPanel.style.setProperty('left', savedLeft, 'important');
+                        if (savedTop || savedLeft) {
+                            formPanel.style.setProperty('right', 'auto', 'important');
+                            formPanel.style.setProperty('bottom', 'auto', 'important');
+                        }
+
+                        // Clean up data attributes
+                        formPanel.removeAttribute('data-saved-width');
+                        formPanel.removeAttribute('data-saved-height');
+                        formPanel.removeAttribute('data-saved-top');
+                        formPanel.removeAttribute('data-saved-left');
+                    }
+
+                    setTimeout(() => {
+                        formPanel.classList.remove('animating');
+                    }, 300);
+                }
+            };
+
+            function initDoctorFormControls() {
+                const formPanel = document.querySelector('.doctor-form-panel');
+                const dragHandle = document.getElementById('formDragHandle');
+                const resizeHandle = document.getElementById('formResizeHandle');
+                if (formPanel) {
+                    if (dragHandle) {
+                        makeElementDraggable(formPanel, dragHandle);
+                    }
+                    if (resizeHandle && window.innerWidth >= 768) {
+                        makeElementResizable(formPanel, resizeHandle);
+                    }
+                }
+            }
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initDoctorFormControls);
+            } else {
+                initDoctorFormControls();
+            }
         </script>
 
-        <style>
-            .hidden {
-                display: none !important;
-            }
-
-            input,
-            select,
-            textarea {
-                transition: all 0.3s ease;
-            }
-
-            input:focus,
-            select:focus,
-            textarea:focus {
-                outline: none;
-                border-color: #3b82f6;
-                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-            }
-        </style>
+        {{-- Input transitions consolidated to head style block --}}
     @endif
 </body>
 <div id="pdfModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-60"
@@ -1329,6 +1956,7 @@
 <script>
     // GLOBAL
     let isSubmitted = false;
+    let hasSubmittedAtLeastOnce = false;
 
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -1338,7 +1966,7 @@
 
         btn.addEventListener('click', function(e) {
 
-            if (!isSubmitted) {
+            if (!hasSubmittedAtLeastOnce) {
 
                 e.preventDefault();
 
@@ -1359,6 +1987,18 @@
         modal.classList.add('hidden');
 
         modal.classList.remove('flex');
+
+        // Re-enable the Submit Report button and reset submission status
+        const submitBtn = document.getElementById('submitReportBtn');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Submit Report';
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+        }
+
+        // Keep End Meeting button enabled after submission
+        isSubmitted = false;
     }
 </script>
 <script>
@@ -1460,6 +2100,19 @@
 <script>
     document.getElementById('submitReportBtn')
         .addEventListener('click', function() {
+            const submitBtn = document.getElementById('submitReportBtn');
+
+            // If already successfully submitted, prevent double submission
+            if (isSubmitted) {
+                alert('Report has already been submitted successfully.');
+                return;
+            }
+
+            // Disable button & change text to prevent duplicate clicks during loading
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Submitting...';
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
 
             let form = document.getElementById('reportdata');
 
@@ -1470,6 +2123,7 @@
                     method: "POST",
 
                     headers: {
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
 
@@ -1485,6 +2139,9 @@
                     if (data.success) {
 
                         isSubmitted = true;
+                        hasSubmittedAtLeastOnce = true;
+                        submitBtn.innerText = 'Report Submitted';
+
                         // Enable End Meeting Button
                         const btn = document.getElementById('endMeetingBtn');
 
@@ -1497,7 +2154,8 @@
                         btn.classList.add(
                             'text-blue-600',
                             'border-blue-600',
-                            'hover:bg-blue-50'
+                            'hover:bg-blue-50',
+                            'active-btn'
                         );
 
                         btn.href = "{{ route('assignpatients') }}";
@@ -1517,15 +2175,32 @@
                         document.getElementById('downloadPdfBtn').href =
                             data.pdf_url;
 
-                        alert('Report submitted successfully');
 
                     } else {
+                        // Re-enable button on logic error
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Submit Report';
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.cursor = 'pointer';
 
-                        alert(data.message || 'Something went wrong');
+                        if (data.errors) {
+                            let errorMsg = 'Validation errors occurred:\n';
+                            for (let key in data.errors) {
+                                errorMsg += '- ' + data.errors[key].join('\n- ') + '\n';
+                            }
+                            alert(errorMsg);
+                        } else {
+                            alert(data.message || 'Something went wrong');
+                        }
                     }
 
                 })
                 .catch(error => {
+                    // Re-enable button on connection error
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Submit Report';
+                    submitBtn.style.opacity = '1';
+                    submitBtn.style.cursor = 'pointer';
 
                     console.error(error);
 

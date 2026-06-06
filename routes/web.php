@@ -112,21 +112,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-divisions/{companyName}', [PatientController::class, 'getDivisions'])->name('get.divisions');
         Route::get('/get-branches/{divisionId}', [PatientController::class, 'getBranches'])->name('get.branches');
     });
-    Route::post('/storereport', [AppointmentController::class, 'storereport'])->name('storereport');
     Route::get('/assignpatients', [ScheduleController::class, 'assignpatients'])->name('assignpatients');
     Route::get('/report/{id}', [ReportController::class, 'report'])->name('report');
     Route::post('/changestatus', [ScheduleController::class, 'changestatus'])->name('changestatus');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/upload-report', [DoctorController::class, 'saveReport'])->name('upload.report');
 
-    });
-    Route::get('avalableform/{proposalno}', [HomeComtroller::class, 'avalableform']);
-    Route::post('customermail', [PatientController::class, 'customermail']);
+});
+Route::get('avalableform/{proposalno}', [HomeComtroller::class, 'avalableform']);
+Route::post('customermail', [PatientController::class, 'customermail']);
 
-    Route::get('/join-meeting/{id}', [AppointmentController::class, 'joinMeeting'])
+Route::get('/join-meeting/{id}', [AppointmentController::class, 'joinMeeting'])
     ->name('join.meeting');
-    Route::post('/upload-recording', [AppointmentController::class, 'uploadRecording'])->name('upload.recording');
-    Route::post('/save-meeting-location', [AppointmentController::class, 'saveMeetingLocation'])->name('save.meeting.location');
+Route::post('/upload-recording', [AppointmentController::class, 'uploadRecording'])->name('upload.recording');
+Route::post('/save-meeting-location', [AppointmentController::class, 'saveMeetingLocation'])->name('save.meeting.location');
+Route::post('/storereport', [AppointmentController::class, 'storereport'])->name('storereport');
 
 Route::get('/zoom-token-test/{id}', function ($id) {
 
