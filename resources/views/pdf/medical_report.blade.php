@@ -806,6 +806,12 @@
                         @endif
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right; padding-top: 15px;">
+                        <img src="{{ public_path('/assests/img/gowelnext_stamp.png') }}"
+                            style="width:150px; display: inline-block;">
+                    </td>
+                </tr>
             </table>
         </div>
         <table>
