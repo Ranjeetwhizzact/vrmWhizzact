@@ -1416,7 +1416,7 @@
                                 </p>
 
                                 <label class="block text-sm font-medium text-gray-700">Place</label>
-                                <input type="text" name="examiner_place" placeholder="Mumbai"
+                                <input type="text" name="examiner_place" value ="Mumbai - 400071"
                                     class="w-full p-2 mt-1 mb-3 border border-gray-300 rounded-md">
 
                                 <label class="block text-sm font-medium text-gray-700">Date</label>
