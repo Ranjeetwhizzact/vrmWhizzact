@@ -76,6 +76,10 @@ class Report extends Model
         // Question 6
         'q6_diagnostic_tests',
         'q6_details',
+        'q6_date',
+        'q6_reason',
+        'q6_advised_by',
+        'q6_findings',
         // 'q6_documents',
 
         // Question 7
@@ -85,6 +89,7 @@ class Report extends Model
 
         // Question 8
         'q8_hypertension_diabetes',
+        'q8_hypertension_diabetesdetails',
         'q8b_details',
         'q8c_medication',
         'q8e_complications',
@@ -94,6 +99,7 @@ class Report extends Model
 
         // Question 9
         'q9a_heart_history',
+        'q9a_heart',
         'q9b_cholesterol',
         'q9c_medication',
         'q9d_surgery',
@@ -136,7 +142,7 @@ class Report extends Model
 
         // Question 17
         'q17a_mental',
-        'q17b_details',
+        'q17a_details',
         // 'q17_documents',
 
         // Question 18

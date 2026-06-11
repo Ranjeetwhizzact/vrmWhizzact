@@ -1051,6 +1051,10 @@ class AppointmentController extends Controller
             // Question 6
             $report->q6_diagnostic_tests = $request->q6_diagnostic_tests ?? 'NO';
             $report->q6_details = $request->q6_details;
+            $report->q6_date = $request->q6_date;
+            $report->q6_reason = $request->q6_reason;
+            $report->q6_advised_by = $request->q6_advised_by;
+            $report->q6_findings = $request->q6_findings;
             // $report->q6_documents = $multipleUploadedFiles['q6_documents'] ?? null;
 
             // Question 7
@@ -1060,6 +1064,7 @@ class AppointmentController extends Controller
 
             // Question 8
             $report->q8_hypertension_diabetes = $request->q8_hypertension_diabetes ?? 'NO';
+            $report->q8_hypertension_diabetesdetails = $request->q8_hypertension_diabetesdetails;
             $report->q8b_details = $request->q8b_details;
             $report->q8c_medication = $request->q8c_medication;
             $report->q8e_complications = $request->q8e_complications;
@@ -1069,6 +1074,7 @@ class AppointmentController extends Controller
 
             // Question 9
             $report->q9a_heart_history = $request->q9a_heart_history ?? 'NO';
+            $report->q9a_heart = $request->q9a_heart;
             $report->q9b_cholesterol = $request->q9b_cholesterol;
             $report->q9c_medication = $request->q9c_medication;
             $report->q9d_surgery = $request->q9d_surgery;
@@ -1111,7 +1117,7 @@ class AppointmentController extends Controller
 
             // Question 17
             $report->q17a_mental = $request->q17a_mental ?? 'NO';
-            $report->q17b_details = $request->q17b_details;
+            $report->q17a_details = $request->q17a_details;
             // $report->q17_documents = $multipleUploadedFiles['q17_documents'] ?? null;
 
             // Question 18

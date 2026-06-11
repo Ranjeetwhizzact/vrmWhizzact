@@ -12,7 +12,8 @@
 
 
     <style>
-        html, body {
+        html,
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -54,9 +55,11 @@
                 display: flex !important;
                 align-items: center !important;
                 justify-content: space-between !important;
-                background-color: #1a1a1a !important; /* Dark Zoom theme background */
+                background-color: #1a1a1a !important;
+                /* Dark Zoom theme background */
                 border: 1px solid #2d2d2d !important;
-                border-radius: 6px !important; /* Matches Zoom control bar corners */
+                border-radius: 6px !important;
+                /* Matches Zoom control bar corners */
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
             }
 
@@ -89,7 +92,8 @@
                 width: 60px !important;
                 height: 60px !important;
                 border-radius: 50% !important;
-                background-color: #1e293b !important; /* Premium Slate-800 dark theme */
+                background-color: #1e293b !important;
+                /* Premium Slate-800 dark theme */
                 border: 2px solid #ffffff !important;
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
                 cursor: pointer !important;
@@ -97,17 +101,19 @@
                 z-index: 10005 !important;
                 transition: transform 0.2s ease, background-color 0.2s ease !important;
             }
+
             .doctor-form-panel.minimized:hover {
                 transform: scale(1.08);
-                background-color: #0f172a !important; /* Premium hover color Slate-900 */
+                background-color: #0f172a !important;
+                /* Premium hover color Slate-900 */
             }
 
             /* Animation transition when minimizing/maximizing */
             .doctor-form-panel.animating {
                 transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                            height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                            border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                            box-shadow 0.3s ease !important;
+                    height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow 0.3s ease !important;
             }
 
             .doctor-form-panel.minimized #formDragHandle {
@@ -138,9 +144,11 @@
                 transition: background-color 0.2s !important;
                 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
             }
+
             #submitReportBtn:hover {
                 background-color: #0c62cc !important;
             }
+
             #submitReportBtn:disabled {
                 background-color: #2d2d2d !important;
                 color: #555555 !important;
@@ -166,6 +174,7 @@
                 color: #ffffff !important;
                 cursor: pointer !important;
             }
+
             #endMeetingBtn.active-btn:hover {
                 background-color: #c02222 !important;
             }
@@ -196,10 +205,12 @@
                 bottom: 100px !important;
                 top: auto !important;
             }
+
             .suspension-window:nth-of-type(2) {
                 top: 120px !important;
                 bottom: auto !important;
             }
+
             .suspension-window:nth-of-type(3) {
                 top: 300px !important;
                 bottom: auto !important;
@@ -212,6 +223,7 @@
 
             /* Desktop/Tablet Layout (768px and up) */
             @media (min-width: 768px) {
+
                 #meetingSDKElement,
                 #zmmtg-root {
                     position: fixed !important;
@@ -226,11 +238,14 @@
 
                 .doctor-form-panel {
                     position: fixed !important;
-                    top: 100px; /* Allowed override by JS */
-                    right: 20px; /* Allowed override by JS */
+                    top: 100px;
+                    /* Allowed override by JS */
+                    right: 20px;
+                    /* Allowed override by JS */
                     width: 400px !important;
                     height: calc(100vh - 180px);
-                    z-index: 10001 !important; /* Floats above full-screen Zoom video */
+                    z-index: 10001 !important;
+                    /* Floats above full-screen Zoom video */
                     display: flex !important;
                     flex-direction: column !important;
                     overflow: hidden !important;
@@ -243,6 +258,7 @@
                     display: flex !important;
                     cursor: grab !important;
                 }
+
                 #formDragHandle:active {
                     cursor: grabbing !important;
                 }
@@ -264,6 +280,7 @@
 
             /* Mobile Layout (below 768px) */
             @media (max-width: 767px) {
+
                 #meetingSDKElement,
                 #zmmtg-root {
                     position: fixed !important;
@@ -280,7 +297,8 @@
                     position: absolute !important;
                     top: calc(85px + 45vh) !important;
                     left: 2% !important;
-                    right: auto !important; /* Forces reset of desktop right positioning */
+                    right: auto !important;
+                    /* Forces reset of desktop right positioning */
                     width: 96% !important;
                     height: auto !important;
                     margin-bottom: 40px !important;
@@ -307,9 +325,11 @@
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                background-color: #1a1a1a !important; /* Dark Zoom theme background */
+                background-color: #1a1a1a !important;
+                /* Dark Zoom theme background */
                 border: 1px solid #2d2d2d !important;
-                border-radius: 6px !important; /* Matches Zoom control bar corners */
+                border-radius: 6px !important;
+                /* Matches Zoom control bar corners */
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
             }
 
@@ -724,7 +744,8 @@
             <!-- Floating Controls Capsule -->
             <div class="doctor-controls-capsule">
                 <!-- Submit Report -->
-                <button type="button" id="submitReportBtn" class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 hover:text-red-700 transition duration-200 cursor-pointer shadow-sm">
+                <button type="button" id="submitReportBtn"
+                    class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 hover:text-red-700 transition duration-200 cursor-pointer shadow-sm">
                     Submit Report
                 </button>
 
@@ -737,29 +758,39 @@
             <!-- Form Panel -->
             <div class="doctor-form-panel bg-white shadow-xl rounded-lg">
                 <!-- Drag Handle Header (Desktop only) -->
-                <div id="formDragHandle" class="w-full bg-[#1e293b] text-white px-4 py-3 rounded-t-lg flex justify-between items-center select-none">
+                <div id="formDragHandle"
+                    class="w-full bg-[#1e293b] text-white px-4 py-3 rounded-t-lg flex justify-between items-center select-none">
                     <!-- Maximized State Title -->
                     <div id="dragTitle" class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                         <span class="font-bold text-sm tracking-wide">MEDICAL EXAMINER'S REPORT</span>
                     </div>
                     <!-- Maximized State Controls -->
                     <div id="dragControls" class="flex items-center gap-3">
-                        <span class="hidden md:inline-block text-[10px] bg-[#334155] border border-slate-600 px-2 py-1 rounded text-slate-200 font-semibold uppercase tracking-wider">Drag to Move</span>
-                        <button type="button" id="minimizeFormBtn" onclick="toggleMinimizeForm(event)" class="text-white hover:bg-[#334155] focus:outline-none rounded p-1 flex items-center justify-center transition-colors duration-200" title="Minimize Form" style="width: 24px; height: 24px; cursor: pointer;">
-                            <svg id="minimizeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <span
+                            class="hidden md:inline-block text-[10px] bg-[#334155] border border-slate-600 px-2 py-1 rounded text-slate-200 font-semibold uppercase tracking-wider">Drag
+                            to Move</span>
+                        <button type="button" id="minimizeFormBtn" onclick="toggleMinimizeForm(event)"
+                            class="text-white hover:bg-[#334155] focus:outline-none rounded p-1 flex items-center justify-center transition-colors duration-200"
+                            title="Minimize Form" style="width: 24px; height: 24px; cursor: pointer;">
+                            <svg id="minimizeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
                             </svg>
-                            <svg id="maximizeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                            <svg id="maximizeIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                             </svg>
                         </button>
                     </div>
                     <!-- Minimized State Document Icon -->
-                    <svg id="clipboardIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    <svg id="clipboardIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l2 2 4-4" />
                     </svg>
                 </div>
@@ -947,9 +978,6 @@
                                     yes, give duration</label>
                                 <input type="text" name="q5a_unconscious"
                                     class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-                                <label class="block text-sm font-medium mt-2">Upload Medical Documents</label>
-                                <input type="file" name="q5a_documents[]" multiple accept="image/*,.pdf"
-                                    class="w-full p-2 mt-1 border border-gray-300 rounded-md">
                             </div>
                         </div>
 
@@ -979,10 +1007,6 @@
                                 <label class="block text-sm font-medium">v. Whether unconscious due to accident, if
                                     yes, give duration</label>
                                 <input type="text" name="q5b_unconscious"
-                                    class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-                                <label class="block text-sm font-medium mt-2">Upload Surgery/Hospitalization
-                                    Documents</label>
-                                <input type="file" name="q5b_documents[]" multiple accept="image/*,.pdf"
                                     class="w-full p-2 mt-1 border border-gray-300 rounded-md">
                             </div>
                         </div>
@@ -1062,8 +1086,6 @@
                             <div id="q7_details" class="hidden mt-3">
                                 <textarea name="q7_details" placeholder="Please provide details of COVID infection, dates, symptoms, treatment"
                                     class="w-full p-2 border border-gray-300 rounded-md" rows="3"></textarea>
-                                <label class="block text-sm font-medium mt-2">Upload COVID Reports</label>
-                                {{-- <input type="file" name="q7_documents[]" multiple accept="image/*,.pdf" class="w-full p-2 mt-1 border border-gray-300 rounded-md"> --}}
                             </div>
                         </div>
 
@@ -1079,6 +1101,9 @@
                                 <option value="YES">YES</option>
                             </select>
                             <div id="q8_details" class="hidden mt-3">
+                                <label class="block text-sm font-medium">Remark</label>
+                                <input type="text" name="q8_hypertension_diabetesdetails"
+                                    class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
                                 <label class="block text-sm font-medium">b. Since when, any follow up and date and
                                     value of last checked blood pressure and sugar levels?</label>
                                 <textarea name="q8b_details" class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md" rows="2"></textarea>
@@ -1090,20 +1115,18 @@
 
                                 <label class="block text-sm font-medium">d. Whether developed any complications due to
                                     diabetes?</label>
-                                <input type="text" name="q8d_complications"
+                                <input type="text" name="q8e_complications"
                                     class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
 
                                 <label class="block text-sm font-medium">e. Whether suffering from any other endocrine
                                     disorders such as thyroid disorder etc.?</label>
-                                <input type="text" name="q8e_endocrine"
+                                <input type="text" name="q8f_endocrine"
                                     class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
 
                                 <label class="block text-sm font-medium">f. Any weight gain or weight loss in last 12
                                     months (other than by diet control or exercise)?</label>
-                                <input type="text" name="q8f_weight_change"
+                                <input type="text" name="q8g_weight_change"
                                     class="w-full p-2 mt-1 border border-gray-300 rounded-md">
-
-
                             </div>
                         </div>
 
@@ -1117,6 +1140,9 @@
                                 <option value="YES">YES</option>
                             </select>
                             <div id="q9_details" class="hidden mt-3">
+                                <label class="block text-sm font-medium">Remark</label>
+                                <input type="text" name="q9a_heart"
+                                    class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
                                 <label class="block text-sm font-medium">b. Whether suffering from high
                                     cholesterol?</label>
                                 <input type="text" name="q9b_cholesterol"
@@ -1136,7 +1162,7 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">10a. Suffering or ever suffered from any disease related to
+                            <p class="font-medium mb-2">10 Suffering or ever suffered from any disease related to
                                 kidney
                                 such as kidney failure, kidney or ureteral stones, blood or pus
                                 in urine or prostate? </p>
@@ -1149,12 +1175,10 @@
                                 <label class="block text-sm font-medium">Remark</label>
                                 <input type="text" name="q10_details"
                                     class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
-
-
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">11a.Suffering or ever suffered from any Liver disorders like
+                            <p class="font-medium mb-2">11 Suffering or ever suffered from any Liver disorders like
                                 cirrhosis, hepatitis, jaundice, or disorder of the Spleen or from
                                 any lung related or respiratory disorders such as Asthma,
                                 bronchitis, wheezing, tuberculosis breathing difficulties etc.? </p>
@@ -1172,7 +1196,7 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">12a.Suffering or ever suffered from any Blood disorder like
+                            <p class="font-medium mb-2">12 Suffering or ever suffered from any Blood disorder like
                                 anaemia, thalassemia or any Circulatory disorder? </p>
                             <select name="q12_blood_disorders" class="w-full p-2 border border-gray-300 rounded-md"
                                 onchange="toggleDetails('q12_details')">
@@ -1188,7 +1212,7 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">13a.Suffering or ever suffered from any form of cancer,
+                            <p class="font-medium mb-2">13 Suffering or ever suffered from any form of cancer,
                                 leukaemia,
                                 tumor, cyst or growth of any kind or enlarged lymph nodes? </p>
                             <select name="q13_cancer" class="w-full p-2 border border-gray-300 rounded-md"
@@ -1205,7 +1229,7 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">14a. Suffering or ever suffered from Epilepsy, nervous
+                            <p class="font-medium mb-2">14 Suffering or ever suffered from Epilepsy, nervous
                                 disorder,
                                 multiple sclerosis, tremors, numbness, paralysis, brain stroke? </p>
                             <select name="q14_neurological" class="w-full p-2 border border-gray-300 rounded-md"
@@ -1222,7 +1246,7 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">15a. Suffering or ever suffered from any physical impairment/
+                            <p class="font-medium mb-2">15 Suffering or ever suffered from any physical impairment/
                                 disability /amputation or any congenital disease/abnormality or
                                 disorder of back, neck, muscle, joints, bones, arthritis or gout? </p>
                             <select name="q15_physical_impairment"
@@ -1240,7 +1264,7 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">16a. Suffering or ever suffered from Hernia or disorder of the
+                            <p class="font-medium mb-2">16 Suffering or ever suffered from Hernia or disorder of the
                                 Stomach / intestines, colitis, indigestion, Peptic ulcer, piles, or
                                 any other disease of the gall bladder or pancreas? </p>
                             <select name="q16_digestive" class="w-full p-2 border border-gray-300 rounded-md"
@@ -1257,10 +1281,10 @@
                             </div>
                         </div>
                         <div class="mb-4 p-3 bg-gray-50 rounded">
-                            <p class="font-medium mb-2">17a.Suffering from Depression/Stress/ Anxiety/ Psychosis or any
+                            <p class="font-medium mb-2">17 Suffering from Depression/Stress/ Anxiety/ Psychosis or any
                                 other Mental / psychiatric disorder? </p>
                             <select name="q17a_mental" class="w-full p-2 border border-gray-300 rounded-md"
-                                onchange="toggleDetails('q17_details')">
+                                onchange="toggleDetails('q17a_details')">
                                 <option value="NO">NO</option>
                                 <option value="YES">YES</option>
                             </select>
@@ -1268,11 +1292,9 @@
                                 <label class="block text-sm font-medium">Remark</label>
                                 <input type="text" name="q17a_details"
                                     class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
-
-
                             </div>
                         </div>
-                        <div class="mb-4 p-3 bg-gray-50 rounded">
+                        <!--<div class="mb-4 p-3 bg-gray-50 rounded">
                             <p class="font-medium mb-2">17b. Whether on treatment or ever taken any treatment, if yes,
                                 please give details of treatment, prescribed medicine and
                                 dosages </p>
@@ -1285,10 +1307,8 @@
                                 <label class="block text-sm font-medium">Remark</label>
                                 <input type="text" name="q17b_details"
                                     class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
-
-
                             </div>
-                        </div>
+                        </div> -->
                         <div class="mb-4 p-3 bg-gray-50 rounded">
                             <p class="font-medium mb-2">18. Is there any abnormality of Eyes (partial/total
                                 blindness),Ears
@@ -1296,16 +1316,17 @@
                                 Mouth,teeth, swelling of gums / tongue, tobacco stains or signs
                                 of oral cancer? </p>
                             <select name="q18_ent" class="w-full p-2 border border-gray-300 rounded-md"
-                                onchange="toggleDetails('q18a_details')">
+                                onchange="toggleDetails('q18_details')">
                                 <option value="NO">NO</option>
                                 <option value="YES">YES</option>
                             </select>
-                            <div id="q18a_details" class="hidden mt-3">
+                            <div id="q18_details" class="hidden mt-3">
                                 <label class="block text-sm font-medium">Remark</label>
-                                <input type="text" name="q18a_details"
+                                <input type="text" name="q18_details"
                                     class="w-full p-2 mt-1 mb-2 border border-gray-300 rounded-md">
                             </div>
                         </div>
+
                         <div class="mb-4 p-3 bg-gray-50 rounded">
                             <p class="font-medium mb-2">19. Whether person being examined and/ or his/her
                                 spouse/partner
@@ -1363,8 +1384,6 @@
                                     treatment for the same</p>
                                 <input type="text" name="gynecological_issues" value="NA"
                                     class="w-full p-2 border border-gray-300 rounded-md">
-                                <label class="block text-sm font-medium mt-3">Upload Gynaecological Reports</label>
-                                {{-- <input type="file" name="gynae_documents[]" multiple accept="image/*,.pdf" class="w-full p-2 mt-1 border border-gray-300 rounded-md"> --}}
                             </div>
                         </div>
 
@@ -1396,13 +1415,10 @@
                                     provided will be passed on to Life Insurance Corporation of India for further
                                     processing.</p>
 
-                                {{-- <label class="block text-sm font-medium text-gray-700 mt-3">Signature/Thumb impression of Life to be assured (In case of Physical Examination)</label>
-                        <input type="file" name="life_assured_signature" accept="image/*" class="w-full p-2 mt-1 border border-gray-300 rounded-md"> --}}
-
                                 <label class="block text-sm font-medium text-gray-700 mt-3">Upload Declaration
                                     Video/Screenshot</label>
-                                <input type="file" name="declaration_proof" accept="image/*,.pdf,.mp4"
-                                    class="w-full p-2 mt-1 border border-gray-300 rounded-md">
+                                <input type="file" name="declaration_proof" accept=".jpg,.jpeg,.png,.webp"
+                                    class="w-full p-2 mt-1 border border-gray-300 rounded-md" />
                             </div>
 
                             <div class="mb-4 p-3 bg-blue-50 rounded">
@@ -1483,8 +1499,11 @@
                     </div>
                 </div>
                 <!-- Custom Resize Handle (Tablet/Desktop only) -->
-                <div id="formResizeHandle" class="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize flex items-end justify-end p-0.5 z-[10003]" style="touch-action: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <div id="formResizeHandle"
+                    class="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize flex items-end justify-end p-0.5 z-[10003]"
+                    style="touch-action: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 hover:text-blue-500"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 19h-6M19 19v-6M19 13l-6 6" />
                     </svg>
                 </div>
@@ -1512,12 +1531,18 @@
 
             // Draggable Form Panel logic for Desktop/Tablet (screens >= 768px)
             function makeElementDraggable(elmnt, dragHandle) {
-                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                let pos1 = 0,
+                    pos2 = 0,
+                    pos3 = 0,
+                    pos4 = 0;
                 let isDragging = false;
-                let startX = 0, startY = 0;
+                let startX = 0,
+                    startY = 0;
 
                 dragHandle.addEventListener('mousedown', dragMouseDown);
-                dragHandle.addEventListener('touchstart', dragTouchStart, { passive: false });
+                dragHandle.addEventListener('touchstart', dragTouchStart, {
+                    passive: false
+                });
 
                 function dragMouseDown(e) {
                     if (e.button !== 0) return; // Only left click
@@ -1564,7 +1589,9 @@
 
                         document.body.style.userSelect = 'none';
 
-                        document.addEventListener('touchmove', elementTouchDrag, { passive: false });
+                        document.addEventListener('touchmove', elementTouchDrag, {
+                            passive: false
+                        });
                     }
                     document.addEventListener('touchend', closeTouchDragElement);
                 }
@@ -1659,7 +1686,9 @@
                 let startWidth, startHeight, startX, startY;
 
                 resizeHandle.addEventListener('mousedown', initResize);
-                resizeHandle.addEventListener('touchstart', initTouchResize, { passive: false });
+                resizeHandle.addEventListener('touchstart', initTouchResize, {
+                    passive: false
+                });
 
                 function initResize(e) {
                     if (e.button !== 0) return;
@@ -1702,7 +1731,9 @@
 
                     document.body.style.userSelect = 'none';
 
-                    document.addEventListener('touchmove', resizeTouchElement, { passive: false });
+                    document.addEventListener('touchmove', resizeTouchElement, {
+                        passive: false
+                    });
                     document.addEventListener('touchend', stopResize);
                 }
 

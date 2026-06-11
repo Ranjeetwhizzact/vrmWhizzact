@@ -27,7 +27,7 @@ class ScheduleController extends Controller
         $patientsQuery = DB::table('appointments as a')
             ->join('patients as p', 'a.client_id', '=', 'p.id')
             ->join('doctors as d', 'a.doctor_id', '=', 'd.user_id')
-            ->orderBy('a.id', 'desc')
+            ->orderBy('a.start_time', 'desc')
             ->select(
                 'p.id as patient_id',
                 'p.full_name as patient_first_name',

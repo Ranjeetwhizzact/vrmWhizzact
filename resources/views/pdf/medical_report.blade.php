@@ -383,7 +383,6 @@
                     @if (($report->q8_hypertension_diabetes ?? 'NO') === 'YES')
                         <div class="ans-detail">
                             {{ $report->q8_hypertension_diabetesdetails ?? '' }}<br>
-
                         </div>
                     @endif
                 </td>
@@ -394,14 +393,11 @@
                     <p>b. Since when, any follow up and date and
                         value of last checked blood pressure and sugar levels?</p>
                 </td>
-                <td>{{ showYesNo($report->q8b_details ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q8b_details ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q8b_detailsdetails ?? '' }}<br>
-
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q8b_details ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -411,14 +407,11 @@
                         the prescribed medicine and dosage.
                     </p>
                 </td>
-                <td>{{ showYesNo($report->q8c_medication ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q8c_medication ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q8c_medicationdetails ?? '' }}<br>
-
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q8c_medication ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -426,14 +419,11 @@
                 <td class="mindcol">
                     <p>d. Whether undergone any surgery or hospitalization for any medical condition?</p>
                 </td>
-                <td>{{ showYesNo($report->q8d_hospitalization ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q8d_hospitalization ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q8d_hospitalizationdetails ?? '' }}<br>
-
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q8e_complications ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -442,14 +432,11 @@
                     <p>e. Whether suffering from any other endocrine
                         disorders such as thyroid disorder etc.?</p>
                 </td>
-                <td>{{ showYesNo($report->q8e_complications ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q8e_complications ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q8e_complicationsdetails ?? '' }}<br>
-
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q8f_endocrine ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -457,14 +444,11 @@
                 <td class="mindcol">
                     <p>f. Whether experiencing any weight change (gain or loss) in the last 5 years?</p>
                 </td>
-                <td>{{ showYesNo($report->q8f_endocrine ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q8f_endocrine ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q8f_endocrinedetails ?? '' }}<br>
-
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q8g_weight_change ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
 
@@ -479,7 +463,7 @@
                 <td>
                     @if (($report->q9a_heart_history ?? 'NO') === 'YES')
                         <div class="ans-detail">
-                            {{ $report->q9a_heart_historydetails ?? '' }}<br>
+                            {{ $report->q9a_heart ?? '' }}<br>
                         </div>
                     @endif
                 </td>
@@ -490,13 +474,11 @@
                     <p>b. Whether suffering from high
                         cholesterol?</p>
                 </td>
-                <td>{{ showYesNo($report->q9b_cholesterol ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q9b_cholesterol ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q9b_cholesteroldetails ?? '' }}<br>
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q9b_cholesterol ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -506,13 +488,11 @@
                         ailment/ high cholesterol? Please state name of the prescribed medicine and
                         dosage.</p>
                 </td>
-                <td>{{ showYesNo($report->q9c_medication ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q9c_medication ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q9c_medicationdetails ?? '' }}<br>
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q9c_medication ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -521,13 +501,11 @@
                     <p>d. Whether undergone Surgery such as CABG,
                         open heart surgery or PTCA?</p>
                 </td>
-                <td>{{ showYesNo($report->q9d_surgery ?? 'NO') }}</td>
+                <td></td>
                 <td>
-                    @if (($report->q9d_surgery ?? 'NO') === 'YES')
-                        <div class="ans-detail">
-                            {{ $report->q9d_surgerydetails ?? '' }}<br>
-                        </div>
-                    @endif
+                    <div class="ans-detail">
+                        {{ $report->q9d_surgery ?? '' }}<br>
+                    </div>
                 </td>
             </tr>
 
@@ -641,17 +619,16 @@
             <tr>
                 <td class="num-col">17</td>
                 <td class="mindcol">
-                    <p>a. Suffering from Depression/Stress/ Anxiety/ Psychosis or any other Mental / psychiatric
+                    <p>Suffering from Depression/Stress/ Anxiety/ Psychosis or any other Mental / psychiatric
                         disorder?</p>
                 </td>
                 <td>{{ showYesNo($report->q17a_mental ?? 'NO') }}</td>
                 <td>
                     @if (($report->q17a_mental ?? 'NO') === 'YES')
-                        <div class="ans-detail">b. {{ $report->q17b_details ?? '' }}</div>
+                        <div class="ans-detail">{{ $report->q17a_details ?? '' }}</div>
                     @endif
                 </td>
             </tr>
-
             {{-- Q18 Eyes/ENT --}}
             <tr>
                 <td class="num-col">18</td>

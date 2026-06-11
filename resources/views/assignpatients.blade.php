@@ -43,7 +43,7 @@
                                     <th class="p-2 text-start capitalize border whitespace-nowrap">Name</th>
                                     <th class="p-2 text-start capitalize border whitespace-nowrap">Doctor </th>
                                     <th class="p-2 text-start capitalize border whitespace-nowrap">Status</th>
-                                    <th class="p-2 text-start capitalize border whitespace-nowrap">Date of Birth</th>
+                                    {{-- <th class="p-2 text-start capitalize border whitespace-nowrap">Date of Birth</th> --}}
                                     <th class="p-2 text-start capitalize border whitespace-nowrap">Time</th>
                                     <th class="p-2 text-start capitalize border whitespace-nowrap">Action</th>
                                 </thead>
@@ -66,11 +66,11 @@
                                                 <td
                                                     class="p-2 text-start capitalize border whitespace-nowrap  font-medium {{ $statuscolors[$patient->patient_status] ?? 'bg-black' }}">
                                                     {{ ucfirst($patient->patient_status) }}</td>
-                                                <td class="p-2 text-start capitalize border whitespace-nowrap">
+                                                {{-- <td class="p-2 text-start capitalize border whitespace-nowrap">
                                                     {{ \Carbon\Carbon::parse($patient->patient_dob)->format('d M Y') }}
-                                                </td>
+                                                </td> --}}
                                                 <td class="p-2 text-start capitalize border whitespace-nowrap">
-                                                    {{ $patient->schedule_time }}</td>
+                                                    {{ \Carbon\Carbon::parse($patient->schedule_time)->format('d M Y, h:i A') }}</td>
                                                 <td
                                                     class="p-2 text-start capitalize border whitespace-nowrap flex gap-3 mb-0">
                                                     {{-- <a href="" id="modalToggle">View</a>, --}}
